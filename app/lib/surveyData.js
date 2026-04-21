@@ -1,12 +1,6 @@
 export const SURVEY_SOURCES = [
   "ThanthiTV",
   "SathiyamTV",
-  "VikatanTV",
-  "News7",
-  "Puthiyathalamurai",
-  "News18",
-  "News24*7",
-  "Chanakya"
 ];
 
 const DEFAULT_PARTY_VALUES = {

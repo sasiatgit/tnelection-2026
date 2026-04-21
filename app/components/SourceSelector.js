@@ -30,9 +30,7 @@ export default function SourceSelector({
           );
         })}
       </div>
-      <p className="sourceHint">
-        Select surveys for comparison. You can select all surveys if you want.
-      </p>
+      
     </>
   );
 }
