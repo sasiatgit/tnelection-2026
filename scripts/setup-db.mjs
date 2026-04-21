@@ -1,14 +1,27 @@
 import { Pool } from "pg";
 
 const DATABASE = process.env.PGDATABASE || "tn_election_2026";
+const connectionString =
+  process.env.DATABASE_URL || process.env.POSTGRES_URL || "";
+const useSsl =
+  process.env.PGSSLMODE !== "disable" &&
+  (process.env.NODE_ENV === "production" || Boolean(connectionString));
 
-const pool = new Pool({
-  host: process.env.PGHOST || "localhost",
-  port: Number(process.env.PGPORT || 5432),
-  user: process.env.PGUSER || process.env.USER,
-  password: process.env.PGPASSWORD || undefined,
-  database: DATABASE
-});
+const pool = new Pool(
+  connectionString
+    ? {
+        connectionString,
+        ssl: useSsl ? { rejectUnauthorized: false } : undefined
+      }
+    : {
+        host: process.env.PGHOST || "localhost",
+        port: Number(process.env.PGPORT || 5432),
+        user: process.env.PGUSER || process.env.USER,
+        password: process.env.PGPASSWORD || undefined,
+        database: DATABASE,
+        ssl: useSsl ? { rejectUnauthorized: false } : undefined
+      }
+);
 
 const sources = [
   "ThanthiTV",
