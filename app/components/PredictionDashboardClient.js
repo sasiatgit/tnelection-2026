@@ -96,7 +96,7 @@ export default function PredictionDashboardClient({
         <div className="topHeader">
           <div className="topLeft">
             <div className="titleBlock">
-            <h1>All Survey Results in One Place - Tamil Nadu Election 2026</h1>
+            <h1>All Constituencies and Survey Results in One Place - Tamil Nadu Election 2026</h1>
             <p>
               38 districts, 234 constituencies, and survey results from
               different sources in one place. These are predictions, and real
