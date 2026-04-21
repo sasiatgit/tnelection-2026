@@ -1,5 +1,4 @@
 import { Pool } from "pg";
-import { TN_CONSTITUENCIES } from "../app/data/tnConstituencies.js";
 
 const DATABASE = process.env.PGDATABASE || "tn_election_2026";
 
@@ -85,18 +84,6 @@ async function run() {
       );
     `);
 
-    for (const item of TN_CONSTITUENCIES) {
-      await client.query(
-        `
-        INSERT INTO constituencies (no, constituency, district)
-        VALUES ($1, $2, $3)
-        ON CONFLICT (no)
-        DO UPDATE SET constituency = EXCLUDED.constituency, district = EXCLUDED.district;
-      `,
-        [item.no, item.constituency, item.district]
-      );
-    }
-
     for (const source of sources) {
       await client.query(
         `
@@ -114,6 +101,17 @@ async function run() {
     );
 
     const sourceByName = Object.fromEntries(rows.map((r) => [r.name, r.id]));
+    const constituencyOneExists = await client.query(
+      `SELECT 1 FROM constituencies WHERE no = 1 LIMIT 1`
+    );
+
+    if (constituencyOneExists.rowCount === 0) {
+      await client.query("COMMIT");
+      console.log(
+        "Database setup complete. Skipped sample survey seed because constituency 1 was not found."
+      );
+      return;
+    }
 
     for (const source of sources) {
       await client.query(
