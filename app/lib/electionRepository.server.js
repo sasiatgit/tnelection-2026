@@ -4,14 +4,8 @@ import pool from "./db.server";
 export async function fetchDashboardData() {
   const ALLOWED_SOURCES = [
     "ThanthiTV",
-    "SathiyamTV",
-    "VikatanTV",
-    "Chanakya",
-    "News7",
-    "News18",
-    "News24*7",
-    "Puthiyathalamurai",
-    "Puthiyalamurai"
+    "SathiyamTV"
+  
   ];
 
   const sourceResult = await pool.query(
